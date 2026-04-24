@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#f7f2aa"/>
+  <rect x="70" y="60" width="1140" height="580" fill="#f6f0a0" stroke="#888" stroke-width="2"/>
+  <text x="640" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" fill="#3f4b2d" font-weight="700">Simulação do comportamento da floresta sem desbaste</text>
+  <text x="640" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#5c6547">Área reservada para inserir o gráfico técnico enviado pelo cliente</text>
+  <text x="640" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#6c7458">Arquivo sugerido: assets/ipc-simulacao-sem-desbaste.png</text>
+  <polyline points="130,590 260,560 420,490 580,390 760,280 950,190 1130,140" fill="none" stroke="#0d6b5f" stroke-width="8"/>
+  <polyline points="130,610 260,520 420,420 580,320 760,250 950,210 1130,190" fill="none" stroke="#ef8ed1" stroke-width="6"/>
+  <polyline points="130,300 260,360 420,430 580,470 760,500 950,520 1130,530" fill="none" stroke="#3344d9" stroke-width="6" stroke-dasharray="10 10"/>
+</svg>
