@@ -928,6 +928,69 @@
       font-size: .94rem;
     }
 
+
+    .quick-menu {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 100;
+    }
+
+    .quick-menu-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--green), var(--green-2));
+      color: #fff;
+      font-weight: 800;
+      box-shadow: 0 12px 28px rgba(47,138,61,.28);
+      cursor: pointer;
+    }
+
+    .quick-menu-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(47,138,61,.34);
+    }
+
+    .quick-menu-panel {
+      display: none;
+      position: absolute;
+      right: 0;
+      bottom: 58px;
+      width: 280px;
+      padding: 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .quick-menu-panel.active {
+      display: grid;
+      gap: 8px;
+    }
+
+    .quick-menu-panel strong {
+      margin-bottom: 4px;
+      color: var(--green);
+    }
+
+    .quick-menu-panel button {
+      width: 100%;
+      text-align: left;
+      border: 1px solid #e4f0e5;
+      background: #f7fcf8;
+      color: #35573c;
+      border-radius: 12px;
+      padding: 11px 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .quick-menu-panel button:hover {
+      background: #ecf8ee;
+    }
+
     @media (max-width: 1100px) {
       .login-shell, .hero-box, .cards { grid-template-columns: 1fr 1fr; }
       .feature-grid { grid-template-columns: 1fr; }
@@ -966,6 +1029,8 @@
       .logout-btn { width: 100%; justify-content: center; }
       .row-between { align-items: flex-start; }
       .planning-scroll { border-radius: 18px; }
+      .quick-menu { right: 14px; bottom: 14px; }
+      .quick-menu-panel { width: calc(100vw - 28px); right: 0; }
     }
   </style>
 </head>
@@ -1221,6 +1286,22 @@
             <h4>Resumo de Área Plantada</h4>
             <p>Painel consolidado com área plantada por fazenda, matrícula, proprietário, tipo de posse, município e distribuição anual das áreas implantadas.</p>
             <button class="card-action" id="openAreaSummaryBtn" type="button">Abrir resumo de área plantada</button>
+          </article>
+
+        
+          <article class="card">
+            <div class="icon">🌐</div>
+            <h4>Modelo 3D Interativo</h4>
+            <p>
+              Visualização tridimensional da área com navegação livre, permitindo análise detalhada do terreno, relevo e estruturas captadas via aerolevantamento.
+            </p>
+            <a class="project-link" 
+               href="https://webapp.atis.cloud/prism?projectId=34cafab3-cb3f-47a8-93df-7370caa804a0&versionId=base" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <span>Abrir modelo 3D no ATIS.cloud</span>
+              <span>↗</span>
+            </a>
           </article>
 
         </div>
@@ -1663,6 +1744,23 @@
           <p class="table-caption">A coluna da fazenda foi congelada para facilitar a leitura durante a navegação horizontal da série histórica de plantio.</p>
         </section>
 
+
+        <div class="quick-menu" aria-label="Menu de acesso rápido">
+          <button class="quick-menu-btn" id="quickMenuBtn" type="button" aria-expanded="false" aria-controls="quickMenuPanel">☰ Menu</button>
+
+          <div class="quick-menu-panel" id="quickMenuPanel">
+            <strong>Acesso rápido</strong>
+            <button type="button" data-target="top">Início</button>
+            <button type="button" data-target="planningPanel">Planejamento de Silvicultura</button>
+            <button type="button" data-target="proprias">Projetos Áreas Próprias</button>
+            <button type="button" data-target="arrendadas">Projetos Áreas Arrendadas</button>
+            <button type="button" data-target="ifc">IFC</button>
+            <button type="button" data-target="ipcPanel">IPC</button>
+            <button type="button" data-target="areaSummaryPanel">Resumo de Área Plantada</button>
+            <button type="button" data-target="atis3d">Modelo 3D (ATIS)</button>
+          </div>
+        </div>
+
         <div class="footer-note">
           Ambiente de demonstração técnica: usuário <strong>login</strong> • senha <strong>senha</strong>
         </div>
@@ -1691,6 +1789,8 @@
     const openAreaSummaryBtn = document.getElementById('openAreaSummaryBtn');
     const closeAreaSummaryBtn = document.getElementById('closeAreaSummaryBtn');
     const areaSummaryPanel = document.getElementById('areaSummaryPanel');
+    const quickMenuBtn = document.getElementById('quickMenuBtn');
+    const quickMenuPanel = document.getElementById('quickMenuPanel');
 
     const VALID_LOGIN = 'login';
     const VALID_PASSWORD = 'senha';
@@ -1803,6 +1903,57 @@
       sessionStorage.removeItem(SESSION_KEY);
       closeAllPanels();
       showLogin();
+    });
+
+
+    quickMenuBtn.addEventListener('click', () => {
+      const isOpen = quickMenuPanel.classList.toggle('active');
+      quickMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    quickMenuPanel.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        quickMenuPanel.classList.remove('active');
+        quickMenuBtn.setAttribute('aria-expanded', 'false');
+
+        if (target === 'top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        if (target === 'planningPanel') {
+          openPanel(planningPanel);
+          return;
+        }
+
+        if (target === 'ipcPanel') {
+          openPanel(ipcPanel);
+          return;
+        }
+
+        if (target === 'areaSummaryPanel') {
+          openPanel(areaSummaryPanel);
+          return;
+        }
+
+        if (target === 'atis3d') {
+          window.open('https://webapp.atis.cloud/prism?projectId=34cafab3-cb3f-47a8-93df-7370caa804a0&versionId=base', '_blank');
+          return;
+        }
+
+        const cards = document.querySelectorAll('.card');
+        if (target === 'proprias' && cards[1]) cards[1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (target === 'arrendadas' && cards[2]) cards[2].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (target === 'ifc' && cards[3]) cards[3].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.quick-menu')) {
+        quickMenuPanel.classList.remove('active');
+        quickMenuBtn.setAttribute('aria-expanded', 'false');
+      }
     });
 
     loadRemembered();
