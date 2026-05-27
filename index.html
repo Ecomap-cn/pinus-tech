@@ -1234,7 +1234,7 @@
             <button class="card-action" id="openPlanningBtn" type="button">Abrir cronograma técnico</button>
           </article>
 
-          <article class="card">
+          <article class="card" id="proprias">
             <div class="icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M12 3l7 4v10l-7 4-7-4V7l7-4Z" stroke="currentColor" stroke-width="1.8"/>
@@ -1245,22 +1245,22 @@
             <h4>Projetos Áreas Próprias</h4>
             <p>Repositório técnico para projetos implantados em áreas próprias, com foco em delimitação, acompanhamento e consolidação operacional.</p>
             <div class="project-links">
-              <a class="project-link" href="projetos/areas-proprias/cerro-verde/index.html" target="_blank" rel="noopener noreferrer">
+              <a class="project-link" href="fazendas_proprias/Cerro_Verde/index.html" target="_blank" rel="noopener noreferrer">
                 <span>Cerro Verde</span>
                 <span>↗</span>
               </a>
-              <a class="project-link" href="projetos/areas-proprias/canhada-funda/index.html" target="_blank" rel="noopener noreferrer">
+              <a class="project-link" href="fazendas_proprias/Canhada_Funda/index.html" target="_blank" rel="noopener noreferrer">
                 <span>Canhada Funda</span>
                 <span>↗</span>
               </a>
-              <a class="project-link" href="projetos/areas-proprias/pica-pau/index.html" target="_blank" rel="noopener noreferrer">
+              <a class="project-link" href="fazendas_proprias/Pica_Pau/index.html" target="_blank" rel="noopener noreferrer">
                 <span>Pica Pau</span>
                 <span>↗</span>
               </a>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" id="arrendadas">
             <div class="icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 7h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -1272,22 +1272,22 @@
             <h4>Projetos Áreas Arrendadas</h4>
             <p>Módulo para projetos em áreas arrendadas, priorizando organização territorial, rastreabilidade e suporte às rotinas de campo.</p>
             <div class="project-links">
-              <a class="project-link" href="projetos/areas-arrendadas/santinha/index.html" target="_blank" rel="noopener noreferrer">
+              <a class="project-link" href="fazendas_arrendadas/Santinha/index.html" target="_blank" rel="noopener noreferrer">
                 <span>Santinha</span>
                 <span>↗</span>
               </a>
-              <a class="project-link" href="projetos/areas-arrendadas/pedra-alta/index.html" target="_blank" rel="noopener noreferrer">
+              <a class="project-link" href="fazendas_arrendadas/Pedra_Alta/index.html" target="_blank" rel="noopener noreferrer">
                 <span>Pedra Alta</span>
                 <span>↗</span>
               </a>
-              <a class="project-link" href="projetos/areas-arrendadas/vista-alta/index.html" target="_blank" rel="noopener noreferrer">
+              <a class="project-link" href="fazendas_arrendadas/Vista_Alta/index.html" target="_blank" rel="noopener noreferrer">
                 <span>Vista Alta</span>
                 <span>↗</span>
               </a>
             </div>
           </article>
 
-          <article class="card">
+          <article class="card" id="ifc">
             <div class="icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.8"/>
@@ -1329,7 +1329,7 @@
           </article>
 
         
-          <article class="card">
+          <article class="card" id="atis3d">
             <div class="icon">🌐</div>
             <h4>Modelos 3D Interativos</h4>
             <p>
@@ -1977,10 +1977,8 @@
           return;
         }
 
-        const cards = document.querySelectorAll('.card');
-        if (target === 'proprias' && cards[1]) cards[1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if (target === 'arrendadas' && cards[2]) cards[2].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        if (target === 'ifc' && cards[3]) cards[3].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const targetElement = document.getElementById(target);
+        if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
 

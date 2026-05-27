@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fazenda Cerro Verde | Resumo Técnico</title>
+  <style>
+    :root{
+      --green:#234f2b;
+      --green2:#2f7d3b;
+      --soft:#edf6ef;
+      --line:#d6e6d8;
+      --text:#1d2a20;
+      --muted:#64756a;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(47,125,59,.16), transparent 32%),
+        linear-gradient(135deg,#f7fbf8,#edf6ef);
+      padding:28px;
+    }
+    .page{
+      max-width:1100px;
+      margin:0 auto;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:0 18px 50px rgba(20,70,30,.14);
+      overflow:hidden;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:24px 28px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#ffffff,#f4fbf5);
+    }
+    .logo-row{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .logo-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:10px 14px;
+      box-shadow:0 8px 24px rgba(26,80,35,.08);
+    }
+    .logo-box img{
+      display:block;
+      max-height:58px;
+      max-width:210px;
+      object-fit:contain;
+    }
+    .title-block{
+      text-align:right;
+      min-width:260px;
+    }
+    h1{
+      margin:0;
+      font-size:1.55rem;
+      color:var(--green);
+      letter-spacing:-.02em;
+    }
+    .subtitle{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:.95rem;
+      line-height:1.45;
+    }
+    main{padding:28px}
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+      margin-bottom:22px;
+    }
+    .info-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+    }
+    .info-card h2{
+      margin:0 0 10px;
+      color:var(--green);
+      font-size:1.15rem;
+    }
+    .info-card p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.65;
+    }
+    .kpis{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+    .kpi{
+      background:var(--soft);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      text-align:center;
+    }
+    .kpi strong{
+      display:block;
+      font-size:1.35rem;
+      color:var(--green2);
+      margin-bottom:4px;
+    }
+    .kpi span{
+      color:var(--muted);
+      font-size:.88rem;
+      font-weight:700;
+    }
+    .section-title{
+      margin:26px 0 12px;
+      color:var(--green);
+      font-size:1.15rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+    .table-wrap{
+      overflow:auto;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:620px;
+    }
+    th,td{
+      padding:12px 14px;
+      border-bottom:1px solid #e5efe6;
+      text-align:right;
+      white-space:nowrap;
+    }
+    th:first-child,td:first-child{text-align:left}
+    thead th{
+      background:var(--green);
+      color:#fff;
+      font-size:.95rem;
+    }
+    tbody tr:nth-child(even) td{background:#f8fcf9}
+    tbody tr.total td{
+      background:#e7f3e9;
+      font-weight:800;
+      color:var(--green);
+      border-top:2px solid var(--green2);
+    }
+    .algorithm{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:12px;
+    }
+    .metric{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+      text-align:center;
+      box-shadow:0 8px 24px rgba(26,80,35,.06);
+    }
+    .metric .label{
+      color:var(--muted);
+      font-weight:800;
+      font-size:.9rem;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:8px;
+    }
+    .metric .value{
+      font-size:1.65rem;
+      font-weight:900;
+      color:var(--green2);
+    }
+    .metric .unit{
+      margin-top:4px;
+      color:var(--muted);
+      font-weight:700;
+    }
+    footer{
+      padding:18px 28px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:.9rem;
+      background:#f8fcf9;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    @media(max-width:760px){
+      body{padding:14px}
+      header,.hero,.algorithm{grid-template-columns:1fr; display:grid}
+      header{text-align:center}
+      .logo-row{justify-content:center}
+      .title-block{text-align:center; min-width:0}
+      .kpis{grid-template-columns:1fr}
+      main{padding:18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo-row">
+        <div class="logo-box"><img src="images/logotipo.png" alt="PinusTech"></div>
+        <div class="logo-box"><img src="images/ecomap_logo 1.png" alt="EcoMap"></div>
+      </div>
+      <div class="title-block">
+        <h1>Fazenda Cerro Verde</h1>
+        <div class="subtitle">Resumo técnico de uso do solo e contagem automática de Pinus</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="info-card">
+          <h2>Quadro consolidado</h2>
+          <p>Este painel apresenta a distribuição das classes mapeadas no projeto, a área plantada com Pinus e os principais indicadores do algoritmo de contagem de mudas.</p>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><strong>82,37</strong><span>ha totais</span></div>
+          <div class="kpi"><strong>50,50</strong><span>ha plantados</span></div>
+          <div class="kpi"><strong>56.202</strong><span>mudas contadas</span></div>
+        </div>
+      </section>
+
+      <div class="section-title">Fazenda Cerro Verde — Uso do Solo</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Classe</th>
+              <th>Área (ha)</th>
+              <th>%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Pinus</td><td>50,50</td><td>61,3%</td></tr>
+            <tr><td>Sem Pinus</td><td>5,93</td><td>7,2%</td></tr>
+            <tr><td>Estradas</td><td>1,32</td><td>1,6%</td></tr>
+            <tr><td>Açude</td><td>0,38</td><td>0,5%</td></tr>
+            <tr><td>APP</td><td>3,10</td><td>3,8%</td></tr>
+            <tr><td>Reserva Legal</td><td>7,10</td><td>8,6%</td></tr>
+            <tr><td>Área de Compensação</td><td>14,05</td><td>17,1%</td></tr>
+            <tr class="total"><td>Total</td><td>82,37</td><td>100,0%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-title">Algoritmo de Contagem de Pinus</div>
+      <div class="algorithm">
+        <div class="metric">
+          <div class="label">Mudas contadas</div>
+          <div class="value">56.202</div>
+          <div class="unit">mudas</div>
+        </div>
+        <div class="metric">
+          <div class="label">Área plantada</div>
+          <div class="value">50,50</div>
+          <div class="unit">hectares</div>
+        </div>
+        <div class="metric">
+          <div class="label">Densidade média</div>
+          <div class="value">1.113</div>
+          <div class="unit">árv/ha</div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <span>PinusTech Florestal • Fazenda Cerro Verde</span>
+      <span>Elaboração técnica: EcoMap</span>
+    </footer>
+  </div>
+</body>
+</html>
