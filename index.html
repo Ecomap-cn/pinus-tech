@@ -1827,8 +1827,10 @@
     const quickMenuBtn = document.getElementById('quickMenuBtn');
     const quickMenuPanel = document.getElementById('quickMenuPanel');
 
-    const VALID_LOGIN = 'login';
-    const VALID_PASSWORD = 'senha';
+    const USERS = [
+      { login: 'login', passwordHash: 'b7e94be513e96e8c45cd23d162275e5a12ebde9100a425c4ebcdd7fa4dcd897c' },
+      { login: 'bbbrasil', passwordHash: 'a4fc0c9d48f6380d65f290d49330314ed71cb3bcc6d7ec2bc201ebc642ccccbf' }
+    ];
     const STORAGE_KEY = 'pinustechPortalRemember';
     const SESSION_KEY = 'pinustechPortalSession';
 
@@ -1895,12 +1897,21 @@
       togglePassword.setAttribute('title', isPassword ? 'Ocultar senha' : 'Visualizar senha');
     });
 
-    loginForm.addEventListener('submit', (event) => {
+    async function sha256(text) {
+      const data = new TextEncoder().encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    loginForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const username = usernameInput.value.trim();
       const password = passwordInput.value;
+      const passwordHash = await sha256(password);
 
-      if (username === VALID_LOGIN && password === VALID_PASSWORD) {
+      const user = USERS.find(u => u.login === username && u.passwordHash === passwordHash);
+
+      if (user) {
         loginError.classList.remove('show');
         setRemembered();
         sessionStorage.setItem(SESSION_KEY, 'true');

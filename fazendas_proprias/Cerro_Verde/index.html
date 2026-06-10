@@ -342,12 +342,76 @@
             #ecomapFinishBar{ bottom: 120px; width: calc(100vw - 24px); max-width: 520px; }
             #ecomapFinishBar button{ flex:1; }
           }
+
+
+        /* ===== EcoMap: Legenda de Declividade ===== */
+        #ecomapSlopeLegend{
+            position:absolute;
+            right: 12px;
+            bottom: 28px;
+            z-index: 9998;
+            background: rgba(255,255,255,0.96);
+            border: 2px solid #111;
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color:#111;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+            display:none;
+            min-width: 150px;
+        }
+        #ecomapSlopeLegend .legend-title{
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: left;
+        }
+        #ecomapSlopeLegend table{
+            border-collapse: collapse;
+            width: 100%;
+        }
+        #ecomapSlopeLegend td{
+            padding: 2px 4px;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+        #ecomapSlopeLegend .swatch{
+            width: 34px;
+            height: 14px;
+            border: 1px solid rgba(0,0,0,0.25);
+        }
+        @media (max-width: 768px){
+            #ecomapSlopeLegend{
+                right: 8px;
+                bottom: 20px;
+                font-size: 11px;
+                min-width: 140px;
+            }
+            #ecomapSlopeLegend .swatch{
+                width: 30px;
+                height: 13px;
+            }
+        }
+
         </style>
         <title></title>
     </head>
     <body>
         <div id="map">
         </div>
+        <div id="ecomapSlopeLegend" aria-hidden="true">
+            <div class="legend-title">Declividade</div>
+            <table>
+                <tr><td><div class="swatch" style="background:#b7e4c7;"></div></td><td>0° a 3°</td></tr>
+                <tr><td><div class="swatch" style="background:#74c69d;"></div></td><td>3° a 6°</td></tr>
+                <tr><td><div class="swatch" style="background:#ffd60a;"></div></td><td>6° a 12°</td></tr>
+                <tr><td><div class="swatch" style="background:#ff9f1c;"></div></td><td>12° a 20°</td></tr>
+                <tr><td><div class="swatch" style="background:#e85d04;"></div></td><td>20° a 30°</td></tr>
+                <tr><td><div class="swatch" style="background:#d00000;"></div></td><td>30° a 45°</td></tr>
+                <tr><td><div class="swatch" style="background:#7b0000;"></div></td><td>45° ou acima</td></tr>
+            </table>
+        </div>
+
         <div id="ecomapHint" class="ecomap-hint" aria-hidden="true"></div>
         <div id="ecomapFinishBar" aria-hidden="true">
           <button type="button" class="btn-ok" id="ecomapBtnFinish">Finalizar</button>
@@ -1522,6 +1586,31 @@ try{
                                               img_bounds_MapadeDeclividade_2,
                                               {pane: 'pane_MapadeDeclividade_2'});
         bounds_group.addLayer(layer_MapadeDeclividade_2);
+
+        /* ===== EcoMap: mostrar/ocultar legenda de declividade ===== */
+        function setSlopeLegendVisible(visible){
+            var el = document.getElementById('ecomapSlopeLegend');
+            if(!el) return;
+            el.style.display = visible ? 'block' : 'none';
+            el.setAttribute('aria-hidden', visible ? 'false' : 'true');
+        }
+
+        map.on('overlayadd', function(e){
+            if(e.layer === layer_MapadeDeclividade_2){
+                setSlopeLegendVisible(true);
+            }
+        });
+
+        map.on('overlayremove', function(e){
+            if(e.layer === layer_MapadeDeclividade_2){
+                setSlopeLegendVisible(false);
+            }
+        });
+
+        try {
+            setSlopeLegendVisible(map.hasLayer(layer_MapadeDeclividade_2));
+        } catch(e) {}
+
         function pop_APP_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -2126,11 +2215,44 @@ try{
         });
         var layer_ResumoTecnicoCerroVerde_12 = new layer_ResumoTecnicoCerroVerde();
 
+        /* ===== Links na árvore de camadas: Documentos para Download ===== */
+        function createDownloadDocumentLayer(filePath) {
+            return L.Layer.extend({
+                onAdd: function(map) {
+                    var a = document.createElement('a');
+                    a.href = filePath;
+                    a.download = '';
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                    var self = this;
+                    setTimeout(function(){
+                        try { map.removeLayer(self); } catch(e) {}
+                    }, 250);
+                },
+                onRemove: function(map) {}
+            });
+        }
+
+        var Layer_Documento_Matricula = createDownloadDocumentLayer('docs/PortalDemo_Matricula.pdf');
+        var Layer_Documento_CAR = createDownloadDocumentLayer('docs/PortalDemo_CAR.pdf');
+        var Layer_Documento_CCIR = createDownloadDocumentLayer('docs/PortalDemo_CCIR.pdf');
+        var Layer_Documento_ITR = createDownloadDocumentLayer('docs/PortalDemo_ITR.pdf');
+
+        var layer_Documento_Matricula_13 = new Layer_Documento_Matricula();
+        var layer_Documento_CAR_14 = new Layer_Documento_CAR();
+        var layer_Documento_CCIR_15 = new Layer_Documento_CCIR();
+        var layer_Documento_ITR_16 = new Layer_Documento_ITR();
+
         var overlaysTree = [
             {label: '📊 Resumo Técnico / Quadro de Áreas', layer: layer_ResumoTecnicoCerroVerde_12},
+            
             {label: '<img src="legend/ContagemdePinus_11.png" /> Contagem de Pinus', layer: layer_ContagemdePinus_11},
             {label: '<img src="legend/reaTotal_10.png" /> Área Total', layer: layer_reaTotal_10},
-        {label: '<b>Uso do Solo</b>',  selectAllCheckbox: true, children: [
+        {label: '<b>Uso do Solo</b>', collapsed: true, selectAllCheckbox: true, children: [
             {label: '<img src="legend/Pinus_9.png" /> Pinus', layer: layer_Pinus_9},
             {label: '<img src="legend/SemPinus_8.png" /> Sem Pinus', layer: layer_SemPinus_8},
             {label: '<img src="legend/Estradas_7.png" /> Estradas', layer: layer_Estradas_7},
@@ -2140,7 +2262,21 @@ try{
             {label: '<img src="legend/APP_3.png" /> APP', layer: layer_APP_3},]},
             {label: "Mapa de Declividade", layer: layer_MapadeDeclividade_2},
             {label: "Ortomosaico_20cm", layer: layer_Ortomosaico_20cm_1},
-            {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
+            {label: "Google Satellite", layer: layer_GoogleSatellite_0},
+            {label: '<b>📁 Documentos para Download</b>', collapsed: true, selectAllCheckbox: false, children: [
+                {label: '📄 Matrículas', collapsed: true, children: [
+                    {label: 'Matrícula Principal', layer: layer_Documento_Matricula_13}
+                ]},
+                {label: '📄 CAR', collapsed: true, children: [
+                    {label: 'CAR Principal', layer: layer_Documento_CAR_14}
+                ]},
+                {label: '📄 CCIR', collapsed: true, children: [
+                    {label: 'CCIR Principal', layer: layer_Documento_CCIR_15}
+                ]},
+                {label: '📄 ITR', collapsed: true, children: [
+                    {label: 'ITR Principal', layer: layer_Documento_ITR_16}
+                ]}
+            ]},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
             //selectorBack: false,
@@ -2151,6 +2287,12 @@ try{
             collapsed: true,
         });
         lay.addTo(map);
+        // EcoMap: inicia todos os grupos da árvore de camadas recolhidos
+        try {
+            if (lay && typeof lay.collapseTree === 'function') {
+                lay.collapseTree(true);
+            }
+        } catch(e) {}
         setBounds();
         L.ImageOverlay.include({
             getBounds: function () {
